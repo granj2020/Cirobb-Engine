@@ -5,7 +5,7 @@
 <b>Cirobb</b> is a <b>2D Rigid Body Physics Engine</b> inspired by <b>Box2D Lite</b> that was created with the purpose of helping people who are starting
 in this wonderful world of physics for Videogames. The Engine uses the Erin Catto's Contact Persistence Algorithm
 and it's implementation of the <b>PGS</b> (Projected Gauss Seidel) solver to solve the MLCP very well known as a <b>SI</b> (Sequential Impulse).<br>it also has a very simple <b>
-2D Collision Detection to Calculate Contact Points, Normal Direction and Penetration</b>. <br>
+2D Collision Detection</b> to Calculate Contact Points, Normal Direction and Penetration. <br>
 The main Idea of this project is to explain in more detail how physics engines works,
 I must clarify that not all physics engines use the same approach. This engine follows the Impulse Based Dynamics.
 
