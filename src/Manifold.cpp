@@ -33,7 +33,7 @@ This can be achieved with a distance heuristic, id, Etc. Reference Erin Catto
 *****************************************************************************************************************/
 void Manifold::Update(Contact* newContacts, const int& numNewContacts)
 {
-  const real k_tolerance = 0.1f;
+	const real k_tolerance = k__distance;
   
   Contact mergedContacts[2];
   
@@ -41,7 +41,7 @@ void Manifold::Update(Contact* newContacts, const int& numNewContacts)
   {
     for(int j = 0; j < numContacts; j++)
     {
-      if((newContacts[i].position - contacts[j].position).Magnitude() < k_tolerance)
+      if((newContacts[i].position - contacts[j].position).SquareMagnitude() < k_tolerance)
       {
       	mergedContacts[i] = newContacts[i];
       	mergedContacts[i].Pn = contacts[j].Pn;
@@ -120,8 +120,8 @@ Equation: A = J * M⁻¹ * Jt
 *******************************************************************************************************************************************/
 void Manifold::PreStep(const real& dt)
 {
-  const real k_slop = 0.01f;
-  const real k_biasFactor = 0.2f;
+	const real k_slop = k__slop;
+	const real k_biasFactor = k__biasFactor;
   
   real massLinear = A->invm + B->invm;
   
@@ -295,8 +295,8 @@ void Manifold::ApplyImpulse(void)
 ****************************************/
 void Manifold::ApplyCorrection(void)
 {
-  const real k_slop = 0.02f;
-  const real k_biasFactor = 0.2f;
+	const real k_slop = k__slop;
+	const real k_biasFactor = k__biasFactor;
   
   real massLinear = A->invm + B->invm;
   

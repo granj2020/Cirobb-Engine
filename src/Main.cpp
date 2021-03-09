@@ -8,27 +8,29 @@
 * It is provided "as is" without express or implied warranty. 
 **************************************************************************/
 
+
 #include "Scene.h"
+
 
 int numScene = 1;
 bool pause = false;
 bool InitScene = true;
 
 real fps = 1.0f / 60.0f;
+				
+Scene scene(Vec2(0, -10.0f), 12, 5);
 
-Scene scene(Vec2(0, -10.0f), 12, 4);
+Circle cPrincipal(2.0f); OBB bPrincipal(4.0, 4.0);
 
-Circle cPrincipal(10); OBB bPrincipal(20, 20);
+RigidBody* sPrincipal = new RigidBody(cPrincipal, Vec2(0, -20.0f), 0.0f); 
 
-RigidBody* sPrincipal = new RigidBody(cPrincipal, Vec2(0, -100), 90 * RAD); //
+RigidBody* cLocal = new RigidBody(Circle(3.0f), Vec2(-4.6, 0), 0);
+RigidBody* bLocal = new RigidBody(OBB(8.0f, 4.8f), Vec2(3.6f, 0), -PI / 20.0f);
 
-RigidBody* cLocal = new RigidBody(Circle(15), Vec2(-23, 0), 0);
-RigidBody* bLocal = new RigidBody(OBB(40, 24), Vec2(18, 0), -PI / 20.0f);
-
-RigidBody* w1 = new RigidBody(OBB(4, 50), Vec2( 20, 0), 0);
-RigidBody* w2 = new RigidBody(OBB(4, 50), Vec2(-20, 0), 0);
-RigidBody* w3 = new RigidBody(OBB(40, 4), Vec2(0, -25), 0);
-RigidBody* w4 = new RigidBody(OBB(40, 4), Vec2(0,  25), 0);
+RigidBody* w1 = new RigidBody(OBB(0.8f, 10), Vec2(4.0f, 0), 0);
+RigidBody* w2 = new RigidBody(OBB(0.8f, 10), Vec2(-4.0f, 0), 0);
+RigidBody* w3 = new RigidBody(OBB(8.0f, 0.8f), Vec2(0, -5.0f), 0);
+RigidBody* w4 = new RigidBody(OBB(8.0f, 0.8f), Vec2(0,  5.0f), 0);
 
 
 void DrawText(int x, int y, char *string)
@@ -85,25 +87,25 @@ void DetectionCollision(RigidBody* p)
 
 void LowFriction(void)
 {
-  RigidBody* b1 = new RigidBody(OBB(110.0, 2.0f), Vec2(0, -20), 0.0f); 
+  RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4), Vec2(0, -4.0), 0.0f); 
   b1->Static();
   
-  OBB w2(50.0, 2.0f);
+  OBB w2(10.0, 0.4f);
   
-  RigidBody* b2 = new RigidBody(w2, Vec2(-30, 20), -15 * RAD); 
+  RigidBody* b2 = new RigidBody(w2, Vec2(-6.0f, 4.0f), -15 * RAD); 
   b2->Static();
   
-  RigidBody* b3 = new RigidBody(w2, Vec2(20, 10), 15 * RAD); 
+  RigidBody* b3 = new RigidBody(w2, Vec2(4.0f, 2.0f), 15 * RAD); 
   b3->Static();
   
-  RigidBody* b4 = new RigidBody(w2, Vec2(-30, 0), -15 * RAD); 
+  RigidBody* b4 = new RigidBody(w2, Vec2(-6.0f, 0), -15 * RAD); 
   b4->Static();
   
-  RigidBody* b5 = new RigidBody(Circle(2), Vec2(-43.6, 26.6), 0.0f); 
+  RigidBody* b5 = new RigidBody(Circle(0.4f), Vec2(8.72f, 5.32), 0.0f); 
   b5->Dynamic(1.0f);
   b5->angularDamping = 0.1f;
   
-  RigidBody* b6 = new RigidBody(OBB(4.0f, 4.0f), Vec2(-48.5, 28.5), -15 * RAD);
+  RigidBody* b6 = new RigidBody(OBB(0.8f, 0.8f), Vec2(-9.7f, 5.7f), -15 * RAD);
   b6->Dynamic(1.0f);
   b6->friction = 0.01f; 
   
@@ -119,31 +121,33 @@ void LowFriction(void)
 
 void Stacking(void)
 {
-  RigidBody* b1 = new RigidBody(OBB(110.0, 2.0f), Vec2(0, -20), 0.0f); 
+  RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
   scene.Add(b1);
   
   for(int i = 0; i < 10; i++)
   {
-    Circle cir(2);
-    OBB obb(4, 4);
+    Circle cir(0.4f);  OBB obb(0.8f, 0.8f);
     
-    RigidBody* b2 = new RigidBody(obb, Vec2(-18.0f, -17.0f + 4.0f * i), 0.0f); 
+		real x = -3.6f;
+		real y = -3.4f + i * 0.8f;
+
+    RigidBody* b2 = new RigidBody(obb, Vec2(x, y), 0.0f); 
     b2->Dynamic(1.0f);
     
-    RigidBody* b3 = new RigidBody(cir, Vec2(0.0f, -17.0f + 4.0f * i), 0.0f); 
+    RigidBody* b3 = new RigidBody(cir, Vec2(0, y), 0.0f); 
     b3->Dynamic(1.0f);	
     
     RigidBody* b4 = nullptr;
     
     if(i & 1) // (i & 1) == (i % 2 == 0)
     {
-      b4 = new RigidBody(obb, Vec2(18.0f, -17.0f + 4.0f * i), 0.0f); 
+      b4 = new RigidBody(obb, Vec2(-x, y), 0.0f); 
       b4->Dynamic(1.0f);	
     }
     else
     {
-      b4 = new RigidBody(cir, Vec2(18, -17.0f + 4.0f * i), 0.0f); 
+      b4 = new RigidBody(cir, Vec2(-x, y), 0.0f); 
       b4->Dynamic(1.0f);	
     }
     
@@ -157,18 +161,18 @@ void Stacking(void)
 
 void Pyramid(void)
 {
-  RigidBody* b1 = new RigidBody(OBB(110.0, 2.0f), Vec2(0,-20), 0); 
+  RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
   scene.Add(b1);
   
-  int lv = 10; real wh = 4.0f;
+  int lv = 10; real wh = 0.8f;
   
   for(int i = 0; i < lv; i++)
   {
     for(int j = 0; j < lv - i; j++)
     {
       real x = (j * 2 + i - lv) * wh * 0.5f;
-      real y = (i + 0.5f) * wh - 19.0f;
+      real y = (i + 0.5f) * wh - 3.8f;
       
       RigidBody* b2 = new RigidBody(OBB(wh, wh), Vec2(x, y) , 0); 
       b2->Dynamic(1.0f);
@@ -181,19 +185,19 @@ void Pyramid(void)
 
 void AngryBirds(void)
 {
-  RigidBody* b1 = new RigidBody(OBB(110.0, 2.0f), Vec2(0, -20), 0.0f); 
+  RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
   
-  OBB w2(10.0, 3.0);
-  
-  RigidBody* b2 = new RigidBody(w2, Vec2(-15, -17.15), 20 * RAD); 
+  OBB w2(2.0f, 0.6f);
+  OBB w3(4.3f, 0.4f);
+
+  RigidBody* b2 = new RigidBody(w2, Vec2(-3.0f, -3.43f), 20 * RAD); 
   b2->Static();
   
-  RigidBody* b4 = new RigidBody(w2, Vec2(15, -17.15), -20 * RAD); 
+  RigidBody* b4 = new RigidBody(w2, Vec2( 3.0f, -3.43f), -20 * RAD); 
   b4->Static();
   
-  OBB w3(21.5, 2.0);
-  RigidBody* b3 = new RigidBody(w3, Vec2(0, -15), 0.0f); 
+  RigidBody* b3 = new RigidBody(w3, Vec2(0, -3.0f), 0.0f); 
   b3->Static();
   
   scene.Add(b1);
@@ -207,18 +211,21 @@ void AngryBirds(void)
   {
     for(int j = 0; j < lv; j++) // Levels
     {
-      OBB wo1(0.8, 5.0);
-      OBB wo2(5.0, 0.8);
-      
-      RigidBody* b5 = new RigidBody(wo1, Vec2(-10 + 8.0 * i, -11.5f + 5.8f * j), 0.0f); 
+      OBB wo1(0.16f, 1.0f);
+      OBB wo2(1.0f, 0.16f);
+     
+			real x = 1.6f  * i;
+			real y = 1.16f * j - 2.3f;
+
+      RigidBody* b5 = new RigidBody(wo1, Vec2(x - 2.0f, y), 0.0f); 
       b5->Dynamic(1.0f);
       scene.Add(b5);
       
-      RigidBody* b6 = new RigidBody(wo1, Vec2(-5.8 + 8.0 * i,-11.5f + 5.8f * j), 0.0f); 
+      RigidBody* b6 = new RigidBody(wo1, Vec2(x - 1.16f, y), 0.0f); 
       b6->Dynamic(1.0);
       scene.Add(b6);
       
-      RigidBody* b7 = new RigidBody(wo2, Vec2(-7.9 + 8.0 * i, -8.5 + 5.8f * j), 0.0f); 
+      RigidBody* b7 = new RigidBody(wo2, Vec2(x - 1.58f, y + 0.6f), 0.0f); 
       b7->Dynamic(1.0f);		
       scene.Add(b7);
     }
@@ -232,32 +239,34 @@ void AngryBirds(void)
 // So this is a special scene that was built to roughly rotate 4 OBBs away from the local center of mass.
 void RotaryBox(void)
 {
-  real angularVelocity = RAD * 0.1f / fps; // Angular Velocity
+  real angularVelocity = RAD * 0.2f / fps; // Angular Velocity
   
   Mat2 rot(w1->orientation);
   
   w1->angularVelocity = w2->angularVelocity = angularVelocity; 
   w3->angularVelocity = w4->angularVelocity = angularVelocity;
   
-  w1->velocity = rot.Rotate(Cross(Vec2(20, 0),-angularVelocity));
-  w2->velocity = rot.Rotate(Cross(Vec2(20, 0), angularVelocity));
-  w3->velocity = rot.Rotate(Cross(Vec2(0, 25), angularVelocity));
-  w4->velocity = rot.Rotate(Cross(Vec2(0, 25),-angularVelocity));
+  w1->velocity = rot.Rotate(Cross(Vec2(4.0f, 0),-angularVelocity));
+  w2->velocity = rot.Rotate(Cross(Vec2(4.0f, 0), angularVelocity));
+  w3->velocity = rot.Rotate(Cross(Vec2(0, 5.0f), angularVelocity));
+  w4->velocity = rot.Rotate(Cross(Vec2(0, 5.0f),-angularVelocity));
 }
+
+
 
 
 
 void FreeStyle(void)
 {
-  RigidBody* b1 = new RigidBody(OBB(110.0f, 4.0f), Vec2(0, -20), 0.0f);
+  RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
   
-  OBB w2(4.0f, 50.0f);
+  OBB w2(0.8f, 10.0f);
   
-  RigidBody* b2 = new RigidBody(w2, Vec2(-60, 4), 10 * RAD);
+  RigidBody* b2 = new RigidBody(w2, Vec2(-12.0f, 0.8f), 10 * RAD);
   b2->Static();
   
-  RigidBody* b3 = new RigidBody(w2, Vec2(60, 4), -10 * RAD);
+  RigidBody* b3 = new RigidBody(w2, Vec2(12.0f, 0.8f), -10 * RAD);
   b3->Static();
   
   scene.Add(b1);
@@ -336,17 +345,18 @@ static void Update(void)
   }
   else
   {
+
+		if(!pause) scene.Step(fps);
+
     if(numScene == 6) RotaryBox();
-    
-    if(!pause) scene.Step(fps);
-    
+
     for(RigidBody* temp : scene.bodies) temp->shape->DrawShape();
     
     for(auto temp = scene.manifolds.begin(); temp != scene.manifolds.end(); temp++)
     {
       for(int i = 0; i < temp->second.numContacts; i++)
       {
-        DrawPoint(temp->second.contacts[i].position, 2, 3);
+        DrawPoint(temp->second.contacts[i].position,  2, 3);
         DrawPoint(temp->second.contacts[i].warmPoint, 1, 5);
       }
     }
@@ -359,9 +369,9 @@ static void Update(void)
 
 void MouseMotion(int x, int y)
 {
-  real _x =  0.05f * (x * 2.0f - glutGet(GLUT_WINDOW_WIDTH));
-  real _y = -0.05f * (y * 2.0f - glutGet(GLUT_WINDOW_HEIGHT));
-  
+  real _x =  0.01f * (x * 2.0f - glutGet(GLUT_WINDOW_WIDTH));
+  real _y = -0.01f * (y * 2.0f - glutGet(GLUT_WINDOW_HEIGHT));
+
   sPrincipal->position.Set(_x, _y);
   sPrincipal->velocity.SetZero();
   sPrincipal->angularVelocity = 0.0f;
@@ -371,8 +381,8 @@ void MouseMotion(int x, int y)
 
 void Keyboard(unsigned char key, int x, int y)
 {
-  real _x =  0.05f * (x * 2.0f - glutGet(GLUT_WINDOW_WIDTH));
-  real _y = -0.05f * (y * 2.0f - glutGet(GLUT_WINDOW_HEIGHT));
+  real _x =  0.01f * (x * 2.0f - glutGet(GLUT_WINDOW_WIDTH));
+  real _y = -0.01f * (y * 2.0f - glutGet(GLUT_WINDOW_HEIGHT));
   
   switch (key)
   {
@@ -387,7 +397,7 @@ void Keyboard(unsigned char key, int x, int y)
     case 'b': 
     case 'B':
     {
-      OBB temp(Vec2(5, 5));
+      OBB temp(Vec2(0.8f, 0.8f));
       RigidBody* b = new RigidBody(temp, Vec2(_x, _y), 0);
       b->Dynamic(1.0f);
       scene.Add(b);
@@ -397,7 +407,7 @@ void Keyboard(unsigned char key, int x, int y)
     case 'c':
     case 'C':
     {
-      Circle temp(2.5f);
+      Circle temp(0.4f);
       RigidBody* b = new RigidBody(temp, Vec2(_x, _y), 0.0f);
       b->Dynamic(1.0f);
       scene.Add(b);
@@ -440,7 +450,7 @@ void Keyboard(unsigned char key, int x, int y)
     break;
     case char(32): // SPACE
     {
-      Scene::CorrectionType = Scene::CorrectionType + 1 > 2 ? 0.0f : Scene::CorrectionType + 1; 
+      Scene::CorrectionType = Scene::CorrectionType > 1 ? 0.0f : Scene::CorrectionType + 1; 
     }
     break;
   }
@@ -456,8 +466,8 @@ void Reshape(int width, int height)
   glLoadIdentity();
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluPerspective(height * 0.05f, float(width) / height, 0, 1);
-  glTranslatef(0.0f, 0.0f, -110);
+	gluOrtho2D(0, width * 0.02f, 0, height * 0.02);
+	glTranslatef(width * 0.01f, height * 0.01f, 0);
 }
 
 
