@@ -23,55 +23,26 @@ These are the two geometric Areas that this physics engine uses to Obtain the re
 *There is also the Inertia tensor: The Inertia tensor reflects the mass distribution of a Body or a system of rotating particles,
 It can also be said that it's the resistance of the body to the Rotation movement.
 
-inertia matrix = |X  0  0|
-                 |0  Y  0|
-                 |0  0  Z|
+inertia Tensor matrix = |X  0  0|
+                        |0  Y  0|
+                        |0  0  Z|
 
 2D physics engines have 3 Degrees of Freedom 2 of translation [X, Y, 0] and 1 of Rotation [0, 0, Z]. It Rotates on the Z Axis.
 
-inertia matrix for 2D = |0  0  0|
-                        |0  0  0|
-                        |0  0  Z|
-
-So when we multiply the matrix we will obtain a simple scalar value that represents the Rotation on the Z axis.
-It is also important to know that the moment of inertia Depends only on the geometry of the body and the position of the Axis of rotation.
-Symmetric Shapes such as: Circles or Rectangles have certain Inertia tensors.
+inertia Tensor in 2D is a Scalar.
 
 Equation: Inertia = mass * Distance^2
 
-1- Inertia Tensor of Circle =
+1- Inertia Tensor of a Circle = mass * Radius * Radius / 2.0
 
-Rx = Ry = Rz = Radius * Radius  
+2- Inertia Tensor of a Rectangle = mass * (x * x + y * y) / 12.0
 
-             |m*Rx*2/5   0            0|
-             |                         |
-             |0       m*Ry*2/5        0|
-             |                         |
-             |0          0     m*Rz*2/5|
-
-
-2- Inertia Tensor of Rectangle = 
-
-Equation: Inertia = mass * Distance^2
-
-Rx = y * y + z * z
-Ry = x * x + z * z
-Rz = x * x + y * y
-
-             |m*Rx/12    0           0|
-             |                        |
-             |0       m*Ry/12        0|
-             |                        |
-             |0          0     m*Ry/12|
-
-
-In case 2d we only need the value of the matrix on the Z Axis which is simply a scalar Value.
 ***********************************************************************************************************************/
 void Circle::CalculateMassInertia(const real& density)
 {
   body->m = PI * radius * radius * density;
   body->invm = body->m ? 1.0f / body->m : 0.0f;
-  body->I = body->m * radius * radius * 0.4f;
+  body->I = body->m * radius * radius * 0.5f;
   body->invI = body->I ? 1.0f / body->I : 0.0f;
 }
 
