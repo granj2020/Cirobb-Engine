@@ -17,6 +17,11 @@
 #include "Shape.h"
 
 
+static real k__distance = 0.01f;
+static real k__biasFactor = 0.1f;
+static real k__slop = 0.004f;
+
+
 struct Contact
 {
   Contact(void) : Pn(0.0f), Pt(0.0f), bias(0.0f), restitution(0.0f), warmPoint(FLT_MAX, FLT_MAX) {;}
