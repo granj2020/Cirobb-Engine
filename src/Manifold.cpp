@@ -33,7 +33,7 @@ This can be achieved with a distance heuristic, id, Etc. Reference Erin Catto
 *****************************************************************************************************************/
 void Manifold::Update(Contact* newContacts, const int& numNewContacts)
 {
-	const real k_tolerance = k__distance;
+  const real k_tolerance = k__distance;
   
   Contact mergedContacts[2];
   
@@ -120,8 +120,8 @@ Equation: A = J * M⁻¹ * Jt
 *******************************************************************************************************************************************/
 void Manifold::PreStep(const real& dt)
 {
-	const real k_slop = k__slop;
-	const real k_biasFactor = k__biasFactor;
+  const real k_slop = k__slop;
+  const real k_biasFactor = k__biasFactor;
   
   real massLinear = A->invm + B->invm;
   
@@ -178,7 +178,6 @@ void Manifold::PreStep(const real& dt)
 *****************************************************************************/
 void Manifold::ApplyImpulse(void)
 {
-
   // Friction Constraint based on Coulomb law: |λt| <= uλn "OR" -uλn <= λt <= uλn
   
   Vec2 tangent = Cross(normal, -1.0f); // Vector Tangent
@@ -295,8 +294,8 @@ void Manifold::ApplyImpulse(void)
 ****************************************/
 void Manifold::ApplyCorrection(void)
 {
-	const real k_slop = k__slop;
-	const real k_biasFactor = k__biasFactor;
+  const real k_slop = k__slop;
+  const real k_biasFactor = k__biasFactor;
   
   real massLinear = A->invm + B->invm;
   

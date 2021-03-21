@@ -142,9 +142,9 @@ void DrawPoint(const Vec2& p, const int& cases, const int& size)
 {
   switch (cases)
   {
-    case 0: glColor3f(1.0f, 0.0f, 0.0f); break;
-    case 1: glColor3f(0.0f, 0.9f, 0.0f); break;
-    case 2: glColor3f(0.0f, 0.5f, 1.0f); break;
+    case 0: glColor3f(1.0f, 0.0f, 0.0f);  break;
+    case 1: glColor3f(0.0f, 0.9f, 0.0f);  break;
+    case 2: glColor3f(0.0f, 0.5f, 1.0f);  break;
   }
   glPointSize(size);	
   glBegin(GL_POINTS);
