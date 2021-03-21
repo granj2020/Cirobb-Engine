@@ -8,9 +8,7 @@
 * It is provided "as is" without express or implied warranty. 
 **************************************************************************/
 
-
 #include "Scene.h"
-
 
 int numScene = 1;
 bool pause = false;
@@ -18,7 +16,7 @@ bool InitScene = true;
 
 real fps = 1.0f / 60.0f;
 				
-Scene scene(Vec2(0, -10.0f), 12, 5);
+Scene scene(Vec2(0, -10.0f), 12, 4);
 
 Circle cPrincipal(2.0f); OBB bPrincipal(4.0, 4.0);
 
@@ -33,7 +31,7 @@ RigidBody* w3 = new RigidBody(OBB(8.0f, 0.8f), Vec2(0, -5.0f), 0);
 RigidBody* w4 = new RigidBody(OBB(8.0f, 0.8f), Vec2(0,  5.0f), 0);
 
 
-void DrawText(int x, int y, char *string)
+static void DrawText(int x, int y, char *string)
 {
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
@@ -47,7 +45,7 @@ void DrawText(int x, int y, char *string)
   glRasterPos2i(x, y);
   for (int i = 0; i < (int)strlen(string); i++) 
   {
-  	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, string[i]);
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, string[i]);
   }
   glPopMatrix();
   glMatrixMode(GL_PROJECTION);
@@ -57,7 +55,7 @@ void DrawText(int x, int y, char *string)
 
 
 
-void DetectionCollision(RigidBody* p)
+static void DetectionCollision(RigidBody* p)
 {
   cLocal->shape->DrawShape();
   bLocal->shape->DrawShape();
@@ -85,7 +83,7 @@ void DetectionCollision(RigidBody* p)
 
 
 
-void LowFriction(void)
+static void LowFriction(void)
 {
   RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4), Vec2(0, -4.0), 0.0f); 
   b1->Static();
@@ -119,7 +117,7 @@ void LowFriction(void)
 
 
 
-void Stacking(void)
+static void Stacking(void)
 {
   RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
@@ -129,8 +127,8 @@ void Stacking(void)
   {
     Circle cir(0.4f);  OBB obb(0.8f, 0.8f);
     
-		real x = -3.6f;
-		real y = -3.4f + i * 0.8f;
+    real x = -3.6f;
+    real y = -3.4f + i * 0.8f;
 
     RigidBody* b2 = new RigidBody(obb, Vec2(x, y), 0.0f); 
     b2->Dynamic(1.0f);
@@ -159,7 +157,7 @@ void Stacking(void)
 
 
 
-void Pyramid(void)
+static void Pyramid(void)
 {
   RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
@@ -183,7 +181,7 @@ void Pyramid(void)
 
 
 
-void AngryBirds(void)
+static void AngryBirds(void)
 {
   RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
@@ -214,8 +212,8 @@ void AngryBirds(void)
       OBB wo1(0.16f, 1.0f);
       OBB wo2(1.0f, 0.16f);
      
-			real x = 1.6f  * i;
-			real y = 1.16f * j - 2.3f;
+      real x = 1.6f  * i;
+      real y = 1.16f * j - 2.3f;
 
       RigidBody* b5 = new RigidBody(wo1, Vec2(x - 2.0f, y), 0.0f); 
       b5->Dynamic(1.0f);
@@ -237,7 +235,7 @@ void AngryBirds(void)
 
 // this physics engine does not support rotation away from the local center of mass.
 // So this is a special scene that was built to roughly rotate 4 OBBs away from the local center of mass.
-void RotaryBox(void)
+static void RotaryBox(void)
 {
   real angularVelocity = RAD * 0.2f / fps; // Angular Velocity
   
@@ -256,7 +254,7 @@ void RotaryBox(void)
 
 
 
-void FreeStyle(void)
+static void FreeStyle(void)
 {
   RigidBody* b1 = new RigidBody(OBB(22.0f, 0.4f), Vec2(0, -4.0), 0.0f); 
   b1->Static();
@@ -341,12 +339,11 @@ static void Update(void)
   
   if(numScene == 1)
   {
-  	DetectionCollision(sPrincipal);
+    DetectionCollision(sPrincipal);
   }
   else
   {
-
-		if(!pause) scene.Step(fps);
+    if(!pause) scene.Step(fps);
 
     if(numScene == 6) RotaryBox();
 
@@ -361,13 +358,13 @@ static void Update(void)
       }
     }
   }
-  
+
   glutSwapBuffers();
 }
 
 
 
-void MouseMotion(int x, int y)
+static void MouseMotion(int x, int y)
 {
   real _x =  0.01f * (x * 2.0f - glutGet(GLUT_WINDOW_WIDTH));
   real _y = -0.01f * (y * 2.0f - glutGet(GLUT_WINDOW_HEIGHT));
@@ -379,7 +376,7 @@ void MouseMotion(int x, int y)
 
 
 
-void Keyboard(unsigned char key, int x, int y)
+static void Keyboard(unsigned char key, int x, int y)
 {
   real _x =  0.01f * (x * 2.0f - glutGet(GLUT_WINDOW_WIDTH));
   real _y = -0.01f * (y * 2.0f - glutGet(GLUT_WINDOW_HEIGHT));
@@ -420,13 +417,13 @@ void Keyboard(unsigned char key, int x, int y)
       if(sPrincipal->shape->type == circle)
       { 
         sPrincipal->shape = &bPrincipal;
-        bPrincipal.body = sPrincipal;
       }
       else
       { 
         sPrincipal->shape = &cPrincipal;
-        cPrincipal.body = sPrincipal;
       }
+      sPrincipal->shape->body = sPrincipal;
+      sPrincipal->Dynamic(1);
     }
     break;
     
@@ -458,7 +455,7 @@ void Keyboard(unsigned char key, int x, int y)
 
 
 
-void Reshape(int width, int height)
+static void Reshape(int width, int height)
 {
   if(height == 0) height = 1;
   glViewport(0, 0, width, height);
@@ -466,8 +463,8 @@ void Reshape(int width, int height)
   glLoadIdentity();
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-	gluOrtho2D(0, width * 0.02f, 0, height * 0.02);
-	glTranslatef(width * 0.01f, height * 0.01f, 0);
+  gluOrtho2D(0, width * 0.02f, 0, height * 0.02);
+  glTranslatef(width * 0.01f, height * 0.01f, 0);
 }
 
 
