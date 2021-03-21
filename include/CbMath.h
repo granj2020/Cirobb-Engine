@@ -46,10 +46,13 @@ Cartesian Coordinates: The components of the vector in the Cartesian axes[x, y, 
  
 This Project has extensive use of vectors so it's important to know that each operation does.
 ********************************************************************************************/
-struct Vec2
+class Vec2
 {
+
+public:
+
   real x, y; 
-	
+
   // Default Constructor 
   Vec2(void) : x(0), y(0) {;}
 

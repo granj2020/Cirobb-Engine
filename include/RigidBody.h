@@ -14,10 +14,15 @@
 
 #include "CbMath.h"
 
-struct Shape;
 
-struct RigidBody
+class Shape;
+
+
+class RigidBody
 {
+
+public:
+
   Vec2 position;        // Position
   Vec2 velocity;        // Linear Velocity
   Vec2 force;           // Linear Force 

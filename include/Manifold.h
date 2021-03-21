@@ -22,8 +22,11 @@ static real k__biasFactor = 0.1f;
 static real k__slop = 0.004f;
 
 
-struct Contact
+class Contact
 {
+
+public:
+
   Contact(void) : Pn(0.0f), Pt(0.0f), bias(0.0f), restitution(0.0f), warmPoint(FLT_MAX, FLT_MAX) {;}
   
   Vec2 position; // Position of Contact Point
@@ -39,8 +42,11 @@ struct Contact
 
 
 
-struct PostPosition
+class PostPosition
 {
+
+public:
+
   real oldOrientationA; // Old Orientation A
   real oldOrientationB; // Old Orientation B
   Vec2 oldPointA[2]; // Old Contact Point A
@@ -51,8 +57,11 @@ struct PostPosition
 
 
 
-struct ManifoldKey
+class ManifoldKey
 {
+
+public:
+
   RigidBody* A, *B;
   
   ManifoldKey(RigidBody* _A, RigidBody* _B) : A(_A), B(_B) {;}
@@ -60,20 +69,26 @@ struct ManifoldKey
 
 
 
-struct Manifold
+class Manifold
 {
+
+private:
+
   enum {MAX_POINTS = 2};
-  
-  int numContacts;
-  
+    
+public:
+
   Contact contacts[MAX_POINTS];
-  
+
+  int numContacts;
+
   PostPosition postPosition;
-  
+
   real u; // Friction Mixed
   
   real e; // Restitution Max
-  
+
+
   RigidBody* A; RigidBody* B;
   
   Vec2 normal; // Normal Vector

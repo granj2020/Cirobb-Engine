@@ -12,13 +12,15 @@
 #define SHAPE_H
 
 #include <stdio.h>
-#include "glut.h"
 #include "RigidBody.h"
+#include "glut.h"
 
 enum typeShape {circle, obb};
 
-struct Shape
+class Shape
 {
+
+public:
   // Circle characteristics
   real radius; 
   // OBB characteristics
@@ -38,8 +40,11 @@ struct Shape
 /*********************************** C I R C L E ****************************************/
 /*********************************** C I R C L E ****************************************/
 
-struct Circle : virtual public Shape
+class Circle : virtual public Shape
 {	
+
+public:
+
   // Initialized Constructor
   Circle(const real& _radius)
   {
@@ -61,8 +66,11 @@ struct Circle : virtual public Shape
 /****************************** O B B ********************************/
 
 
-struct OBB : virtual public Shape
+class OBB : virtual public Shape
 {
+
+public:
+
   // Initialized Constructo with Vector
   OBB(const Vec2& _width)
   {
