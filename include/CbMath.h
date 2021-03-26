@@ -13,7 +13,6 @@
 #define CBMATH_H
 
 #include <math.h>
-#include <cfloat>
 
 typedef float real;
 // Irrational Constant PI
