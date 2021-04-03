@@ -136,8 +136,6 @@ The Following Features will be added to the Cirobb Engine in the future:
 
 * Modification of the .h and .cpp files to Improve understanding of the Code.
 
-* Separate the graphics Library of the Physics Engine.
-
 <h2> About the Author </h2>
 
 Hi, my name is <b>Jonathan Peña</b>, I'm from Venezuela. I really like physics in Videogames,
