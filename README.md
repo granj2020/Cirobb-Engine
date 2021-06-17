@@ -136,7 +136,7 @@ The Following Features will be added to the Cirobb Engine in the future:
 
 * Change heuristic from distance to id to update contact points
 
-<h2 style="color: red"> About the Author </h2>
+<h2> About the Author </h2>
 
 Hi, my name is <b>Jonathan Peña</b>, I'm from Venezuela. I really like physics in Videogames,
 I like the Dynamics of Physics Engines and how the equations predict movement. You can contact me here: granj215@gmail.com.
